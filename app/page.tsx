@@ -32,12 +32,10 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
-
   useEffect(() => {
     // Fetch your data here
-    setData([/* Mock data */]);
   }, []);
+  
 
   const jobListingsData = {
     labels: ['IT', 'Healthcare', 'Finance', 'Education', 'Engineering'],
@@ -127,7 +125,7 @@ const Dashboard = () => {
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="bg-gray-900 text-white p-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Logo" className="w-8 h-8" />
+        <img src="/user-avatar.png" alt="User Avatar" className="w-6 h-6 rounded-full" />
           <h1 className="text-2xl font-bold">Job Recruiting Agency Dashboard</h1>
         </div>
         <nav>
