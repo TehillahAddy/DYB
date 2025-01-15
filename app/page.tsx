@@ -32,12 +32,10 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
-
   useEffect(() => {
     // Fetch your data here
-    setData([/* Mock data */]);
   }, []);
+  
 
   const jobListingsData = {
     labels: ['IT', 'Healthcare', 'Finance', 'Education', 'Engineering'],
