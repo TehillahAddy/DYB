@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Bar, Pie, Line, Bubble } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -34,10 +34,14 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
   useEffect(() => {
-    // Fetch your data here
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
-  
 
   const jobListingsData = {
     labels: ['IT', 'Healthcare', 'Finance', 'Education', 'Engineering'],
@@ -122,7 +126,6 @@ const Dashboard = () => {
       },
     ],
   };
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="bg-gray-900 text-white p-4 flex justify-between items-center">
@@ -130,6 +133,11 @@ const Dashboard = () => {
         <Image src="/images/wall3.webp" alt="Logo" width={32} height={32} className="w-8 h-8" />
         <h1 className="text-2xl font-bold">Job Recruiting Agency Dashboard</h1>
       </div>
+      <div className="text-right">
+          <p>{currentTime.toLocaleDateString()} {currentTime.toLocaleTimeString()}</p>
+          <p>500+ Staff | 30+ Industries</p>
+          <p>Professional & Experienced</p>
+        </div>
       <nav>
         <ul className="flex gap-4 items-center">
           <li><a href="#" className="hover:underline flex items-center gap-1"><FaHome />Home</a></li>
@@ -298,6 +306,51 @@ const Dashboard = () => {
                   <td className="px-6 py-4 whitespace-nowrap">Nurse Practitioner</td>
                   <td className="px-6 py-4 whitespace-nowrap">Healthcare</td>
                   <td className="px-6 py-4 whitespace-nowrap">2025-01-05</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="table-container bg-gray-800 p-4 shadow-md rounded-lg mt-6">
+            <h2 className="text-lg font-semibold mb-2">Company Information</h2>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Tianan</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.1</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Sherry</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">ABC Corp</td>
+                  <td className="px-6 py-4 whitespace-nowrap">1.5 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.6</td>
+                  <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">XYZ Ltd</td>
+                  <td className="px-6 py-4 whitespace-nowrap">3 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.8</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Jane Smith</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">Global Inc</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2.5 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.12</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Robert Brown</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Innovatech</td>
+                  <td className="px-6 py-4 whitespace-nowrap">4 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2022.3</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Alice Green</td>
                 </tr>
               </tbody>
             </table>
