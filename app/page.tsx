@@ -149,7 +149,7 @@ const Dashboard = () => {
       <div className="relative">
         <button className="flex items-center gap-2 bg-gray-800 p-2 rounded-lg">
           <Image src="/images/survey5.png" alt="User Avatar" width={24} height={24} className="w-6 h-6 rounded-full" />
-          <span>Dr. Yaw Boafo</span>
+          <span>Dr. Yaw Boafoo</span>
         </button>
         <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg p-4 hidden">
           <a href="#" className="block px-4 py-2 hover:bg-gray-200">Profile</a>
