@@ -43,6 +43,16 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Prevent rendering on the server
+  }
+
   const jobListingsData = {
     labels: ['IT', 'Healthcare', 'Finance', 'Education', 'Engineering'],
     datasets: [
@@ -126,6 +136,7 @@ const Dashboard = () => {
       },
     ],
   };
+  
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="bg-gray-900 text-white p-4 flex justify-between items-center">
