@@ -11,8 +11,6 @@ import WOW from 'wow.js';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'wow.js/css/libs/animate.css';
-import '../styles/globals.css'
-
 
 const Profile = () => {
   useEffect(() => {
