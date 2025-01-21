@@ -1,203 +1,389 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { useEffect, useState } from 'react';
+import { Bar, Pie, Line, Bubble } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  Filler,
+  BubbleController
+} from 'chart.js';
+import { FaHome, FaUser, FaCog, FaSignOutAlt, FaTachometerAlt, FaChartBar, FaChartLine, FaCogs } from 'react-icons/fa';
+import Image from 'next/image';  // Import the Image component
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  Filler,
+  BubbleController
+);
 
+const Dashboard = () => {
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-const HomePage = () => {
-  const [showAchievements, setShowAchievements] = useState(false);
-  const [showArticles, setShowArticles] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-
-  const [isClient, setIsClient] = useState(false)
- 
- 
   useEffect(() => {
-    AOS.init({
-      duration: 1000,
-    });
-    setIsClient(true)
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
- 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Handle form submission logic
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Prevent rendering on the server
+  }
+
+  const jobListingsData = {
+    labels: ['IT', 'Healthcare', 'Finance', 'Education', 'Engineering'],
+    datasets: [
+      {
+        label: 'Job Listings by Industry',
+        data: [102, 76, 89, 47, 58],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+      },
+    ],
   };
 
+  const candidatesData = {
+    labels: ['JavaScript', 'Python', 'Sales', 'Marketing', 'Project Management'],
+    datasets: [
+      {
+        label: 'Candidates by Skills',
+        data: [89, 72, 56, 48, 65],
+        backgroundColor: ['#4BC0C0', '#FF6384', '#FF9F40', '#36A2EB', '#FFCE56'],
+      },
+    ],
+  };
+
+  const timeToFillData = {
+    labels: ['IT', 'Healthcare', 'Finance', 'Education', 'Engineering'],
+    datasets: [
+      {
+        label: 'Time to Fill (days)',
+        data: [30, 45, 25, 50, 35],
+        backgroundColor: '#36A2EB',
+      },
+    ],
+  };
+
+  const candidateStatusData = {
+    labels: ['Applied', 'Interviewing', 'Hired', 'Rejected'],
+    datasets: [
+      {
+        label: 'Candidate Status',
+        data: [150, 75, 30, 50],
+        backgroundColor: ['#FF6384', '#36A2EB', '#4BC0C0', '#FFCE56'],
+      },
+    ],
+  };
+
+  const clientSatisfactionData = {
+    labels: ['*****', '****', '***', '**', '*'],
+    datasets: [
+      {
+        label: 'Client Satisfaction Rating',
+        data: [120, 80, 40, 20, 10],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+      },
+    ],
+  };
+
+  const areaChartData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [
+      {
+        label: 'Jobs Filled Over Time',
+        data: [30, 45, 25, 50, 35, 60],
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        fill: true,
+      },
+    ],
+  };
+
+  const bubbleChartData = {
+    datasets: [
+      {
+        label: 'Candidates by Experience',
+        data: [
+          { x: 5, y: 50, r: 15 },
+          { x: 10, y: 75, r: 10 },
+          { x: 15, y: 150, r: 20 },
+          { x: 20, y: 125, r: 30 },
+          { x: 25, y: 200, r: 25 },
+        ],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+      },
+    ],
+  };
+  
   return (
-    
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900 p-6">
-      <header className="bg-gradient-to-r from-green-400 to-blue-500 text-white p-6 shadow-md flex justify-between items-center animate-fadeIn">
-        <div className="flex items-center gap-6">
-          <Image src="/images/1.webp" alt="Dr. Yaw Boafo" width={50} height={50} className="rounded-full" />
-          <h1 className="text-3xl font-bold">Dr. Yaw Boafo</h1>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+      <header className="bg-gray-900 text-white p-4 flex justify-between items-center">
+      <div className="flex items-center gap-4">
+        <Image src="/images/wall3.webp" alt="Logo" width={32} height={32} className="w-8 h-8" />
+        <h1 className="text-2xl font-bold">Job Recruiting Agency Dashboard</h1>
+      </div>
+      <div className="text-right">
+          <p>{currentTime.toLocaleDateString()} {currentTime.toLocaleTimeString()}</p>
+          <p>500+ Staff | 30+ Industries</p>
+          <p>Professional & Experienced</p>
         </div>
-        <nav>
-          <ul className="flex gap-6 text-lg font-semibold">
-            <li className="hover:underline">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="hover:underline">
-              <Link href="#profile">Profile</Link>
-            </li>
-            <li className="hover:underline">
-              <Link href="#climate-change">Climate Change</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      
-      <main className="flex-1 p-8 space-y-8">
-        <section id="about" className="bg-white rounded-lg shadow-lg p-6" data-aos="fade-down">
-          <h2 className="text-2xl font-semibold mb-6 border-b-2 border-gray-200 pb-2">About Dr. Yaw Boafo</h2>
-          <Image src="/images/1.webp" alt="Dr. Yaw Boafo" width={200} height={200} className="rounded-full mx-auto mb-6" />
-          <p className="text-justify leading-relaxed">Dr. Yaw Boafo is a renowned expert in climate change, with extensive experience in environmental research and advocacy. His work focuses on raising awareness about the impacts of climate change and promoting sustainable practices.</p>
-        </section>
-
-        <section id="achievements" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-out-left">
-          <h2 className="text-2xl font-semibold mb-4 cursor-pointer" onClick={() => setShowAchievements(!showAchievements)}>
-            Achievements {showAchievements ? '▲' : '▼'}
-          </h2>
-          {showAchievements && (
-            <ul className="list-disc pl-6 leading-relaxed animate-fadeIn">
-              <li>Published over 50 research papers on climate change</li>
-              <li>Keynote speaker at international climate change conferences</li>
-              <li>Advisor to governmental and non-governmental organizations on environmental policies</li>
-            </ul>
-          )}
-        </section>
-
-        <section id="articles" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-in-down">
-          <h2 className="text-2xl font-semibold mb-4 cursor-pointer" onClick={() => setShowArticles(!showArticles)}>
-            Insights and Articles {showArticles ? '▲' : '▼'}
-          </h2>
-          {showArticles && (
-            <div className="leading-relaxed animate-fadeIn">
-              <p><strong>Article 1:</strong> <Link href="/articles/article-1" className="text-blue-500 underline">The Impact of Climate Change on Coastal Communities</Link></p>
-              <p><strong>Article 2:</strong> <Link href="/articles/article-2" className="text-blue-500 underline">Sustainable Practices to Combat Climate Change</Link></p>
-              {/* Add additional articles as needed */}
-            </div>
-          )}
-        </section>
-
-        <section id="testimonials" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-in-up">
-          <h2 className="text-2xl font-semibold mb-4">Testimonials</h2>
-          <blockquote className="bg-gray-100 p-6 rounded-lg shadow-inner italic">
-            <p>"Dr. Yaw Boafo's insights into climate change have been invaluable to our organization." - Environmental NGO</p>
-          </blockquote>
-        </section>
-
-        <section id="videos" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-out-up">
-          <h2 className="text-2xl font-semibold mb-4">Watch Dr. Boafo's Talk</h2>
-          <iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="rounded-lg shadow-md"></iframe>
-        </section>
-
-        <section id="timeline" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-out-down">
-          <h2 className="text-2xl font-semibold mb-4">Career Timeline</h2>
-          <ul className="list-disc pl-6 leading-relaxed">
-            <li>2005: PhD in Environmental Science</li>
-            <li>2010: Published first research paper on climate change</li>
-            <li>2015: Keynote speaker at Climate Change Summit</li>
-            <li>2020: Advisor to governmental environmental policy</li>
-          </ul>
-        </section>
-
-        <section id="contact" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-out-right">
-          <h2 className="text-2xl font-semibold mb-4">Contact Dr. Boafo</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Message</label>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-              ></textarea>
-            </div>
-            <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Submit</button>
-          </form>
-        </section>
-
-        <section id="newsletter" className="bg-white rounded-lg shadow-lg p-6" data-aos="fade-up"
-     data-aos-anchor-placement="bottom-center">
-          <h2 className="text-2xl font-semibold mb-4">Newsletter Signup</h2>
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-opacity-50 focus:ring-blue-300"
-              />
-            </div>
-            <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">Subscribe</button>
-          </form>
-        </section>
-
-        <section id="blog" className="bg-white rounded-lg shadow-lg p-6" data-aos="fade-down"
-     data-aos-anchor-placement="bottom-center">
-          <h2 className="text-2xl font-semibold mb-4">Blog</h2>
-          <div className="bg-gray-100 p-4 rounded-lg shadow-inner">
-            <p><strong>Latest Blog Post:</strong> <Link href="/blog/latest-post" className="text-blue-500 underline">Understanding Climate Change</Link></p>
-            {/* Add additional blog posts as needed */}
-          </div>
-        </section>
-
-        <section id="events" className="bg-white rounded-lg shadow-lg p-6" data-aos="zoom-up"
-     data-aos-anchor-placement="bottom-center">
-          <h2 className="text-2xl font-semibold mb-4">Upcoming Events</h2>
-          <ul className="list-disc pl-6 leading-relaxed">
-            <li>Webinar on Sustainable Practices - March 30, 2025</li>
-            <li>Climate Change Summit - April 15, 2025</li>
-            <li>Environmental Policy Workshop - May 10, 2025</li>
-            {/* Add additional events as needed */}
-          </ul>
-        </section>
-
-        <section id="social" className="bg-white rounded-lg shadow-lg p-6" data-aos="flip-up"
-     data-aos-anchor-placement="bottom-center">
-          <h2 className="text-2xl font-semibold mb-4">Connect with Dr. Boafo</h2>
-          <div className="flex gap-4">
-            <a href="https://twitter.com" className="hover:text-blue-400">Twitter</a>
-            <a href="https://facebook.com" className="hover:text-blue-600">Facebook</a>
-            <a href="https://linkedin.com" className="hover:text-blue-800">LinkedIn</a>
-          </div>
-        </section>
-      </main>
-
-      <footer className="bg-gray-900 text-white p-4 flex justify-between items-center">
-        <p>&copy; {new Date().getFullYear()} Dr. Yaw Boafo</p>
-        <div className="flex gap-4">
-          <a href="https://twitter.com" className="hover:text-blue-400">Twitter</a>
-          <a href="https://facebook.com" className="hover:text-blue-600">Facebook</a>
-          <a href="https://linkedin.com" className="hover:text-blue-800">LinkedIn</a>
+      <nav>
+        <ul className="flex gap-4 items-center">
+          <li><a href="#" className="hover:underline flex items-center gap-1"><FaHome />Home</a></li>
+          <li><a href="#" className="hover:underline flex items-center gap-1"><FaUser />Profile</a></li>
+          <li><a href="#" className="hover:underline flex items-center gap-1"><FaCog />Settings</a></li>
+          <li><a href="#" className="hover:underline flex items-center gap-1"><FaSignOutAlt />Logout</a></li>
+        </ul>
+      </nav>
+      <div className="relative">
+        <button className="flex items-center gap-2 bg-gray-800 p-2 rounded-lg">
+          <Image src="/images/survey5.png" alt="User Avatar" width={24} height={24} className="w-6 h-6 rounded-full" />
+          <span>Dr. Yaw Boafoo</span>
+        </button>
+        <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg p-4 hidden">
+          <a href="#" className="block px-4 py-2 hover:bg-gray-200">Profile</a>
+          <a href="#" className="block px-4 py-2 hover:bg-gray-200">Settings</a>
+          <a href="#" className="block px-4 py-2 hover:bg-gray-200">Logout</a>
         </div>
-      </footer>
+      </div>
+    </header>
+
+    <div className="flex flex-1">
+      <aside className="w-1/4 bg-gray-800 text-white p-4">
+        <h2 className="text-xl font-bold mb-4">Navigation</h2>
+        <ul className="flex flex-col gap-4">
+          <li className="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+            <FaTachometerAlt />
+            <a href="#">Overview</a>
+          </li>
+          <li className="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+            <FaChartBar />
+            <a href="#">Reports</a>
+          </li>
+          <li className="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+            <FaChartLine />
+            <a href="#">Analytics</a>
+          </li>
+          <li className="hover:bg-gray-700 p-2 rounded flex items-center gap-2">
+            <FaCogs />
+            <a href="#">Settings</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main className="flex-1 p-6 bg-gradient-to-r from-gray-50 to-gray-100">
+        <header className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">Welcome, Dr. Yaw Boafo!</h1>
+        </header>
+
+          <div className="kpi-container grid grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="kpi-card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Total Job Listings</h2>
+              <p>372</p>
+            </div>
+            <div className="kpi-card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Total Candidates</h2>
+              <p>1,356</p>
+            </div>
+            <div className="kpi-card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Jobs Filled</h2>
+              <p>328</p>
+            </div>
+            <div className="kpi-card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Average Time to Fill</h2>
+              <p>35 days</p>
+            </div>
+            <div className="kpi-card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Conversion Rate</h2>
+              <p>24%</p>
+            </div>
+          </div>
+
+          <div className="alert bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 mt-6" role="alert">
+            <p className="font-bold">Notice</p>
+            <p>You have 5 new job applications to review.</p>
+          </div>
+
+          <form className="filter-form bg-white p-4 shadow-md rounded-lg mb-6">
+            <h2 className="text-lg font-semibold mb-2">Filter Job Listings</h2>
+            <div className="flex gap-4">
+              <input type="text" placeholder="Job Title" className="p-2 border rounded-lg" />
+              <select className="p-2 border rounded-lg">
+                <option value="">Industry</option>
+                <option value="IT">IT</option>
+                <option value="Healthcare">Healthcare</option>
+                {/* Add more options */}
+              </select>
+              <button className="p-2 bg-blue-500 text-white rounded-lg">Search</button>
+            </div>
+          </form>
+
+          <div className="widget-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div className="widget bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">New Candidates</h2>
+              <p>15 this week</p>
+            </div>
+            <div className="widget bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Upcoming Interviews</h2>
+              <p>8 scheduled</p>
+            </div>
+          </div>
+
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Job Listings by Industry</h2>
+              <Pie data={jobListingsData} />
+            </div>
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Candidates by Skills</h2>
+              <Pie data={candidatesData} />
+            </div>
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Time to Fill by Job Type</h2>
+              <Bar data={timeToFillData} />
+            </div>
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Jobs Filled Over Time</h2>
+              <Line data={areaChartData} />
+            </div>
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Candidates by Experience</h2>
+              <Bubble data={bubbleChartData} />
+            </div>
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Candidate Status</h2>
+              <Pie data={candidateStatusData} />
+            </div>
+            <div className="card bg-white p-4 shadow-md rounded-lg">
+              <h2 className="text-lg font-semibold mb-2">Client Satisfaction</h2>
+              <Pie data={clientSatisfactionData} />
+            </div>
+          </section>
+
+          <div className="table-container bg-white p-4 shadow-md rounded-lg mt-6">
+            <h2 className="text-lg font-semibold mb-2">Recent Job Listings</h2>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job Title</th>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Industry</th>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Posted</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Software Engineer</td>
+                  <td className="px-6 py-4 whitespace-nowrap">IT</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2025-01-10</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">Marketing Manager</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Marketing</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2025-01-08</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Financial Analyst</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Finance</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2025-01-07</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">Project Manager</td>
+                  <td className="px-6 py-4 whitespace-nowrap">IT</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2025-01-06</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Nurse Practitioner</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Healthcare</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2025-01-05</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="table-container bg-gray-800 p-4 shadow-md rounded-lg mt-6">
+            <h2 className="text-lg font-semibold mb-2">Company Information</h2>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                  <th className="px-6 py-3 bg-gray-700 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Tianan</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.1</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Sherry</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">ABC Corp</td>
+                  <td className="px-6 py-4 whitespace-nowrap">1.5 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.6</td>
+                  <td className="px-6 py-4 whitespace-nowrap">John Doe</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">XYZ Ltd</td>
+                  <td className="px-6 py-4 whitespace-nowrap">3 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.8</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Jane Smith</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">Global Inc</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2.5 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2021.12</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Robert Brown</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Innovatech</td>
+                  <td className="px-6 py-4 whitespace-nowrap">4 mill.</td>
+                  <td className="px-6 py-4 whitespace-nowrap">2022.3</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Alice Green</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
 
-export default HomePage;
+export default Dashboard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
