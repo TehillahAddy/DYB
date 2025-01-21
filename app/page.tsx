@@ -45,7 +45,7 @@ const HomePage = () => {
               <Link href="/">Home</Link>
             </li>
             <li className="hover:underline">
-              <Link href="profile">Profile</Link>
+              <Link href="#profile">Profile</Link>
             </li>
             <li className="hover:underline">
               <Link href="#climate-change">Climate Change</Link>
